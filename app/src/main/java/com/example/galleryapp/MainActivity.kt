@@ -21,24 +21,24 @@ import java.text.SimpleDateFormat
 import java.time.format.DateTimeFormatter
 import java.util.jar.Manifest
 
-class MainActivity : AppCompatActivity(),ItemClickListener {
+class MainActivity : AppCompatActivity(), ItemClickListener {
     lateinit var list: List<MediaStore.Images>
 
     companion object {
-        val PERMISSIONS = arrayOf(android.Manifest.permission.READ_EXTERNAL_STORAGE)
+        val PERMISSIONS = arrayOf(
+            android.Manifest.permission.READ_EXTERNAL_STORAGE,
+            android.Manifest.permission.WRITE_EXTERNAL_STORAGE
+        )
+
         val REQUEST_CODE_PERMISSION = 10
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val model=ViewModel(application)
+        val model = ViewModel(application)
         setContentView(R.layout.activity_main)
         if (permissionGranted()) {
-         model.getImage()
-            model.images.observe(this, Observer {
-                rev.adapter=MyAdapter(it,this)
-                rev.layoutManager=GridLayoutManager(this,5)
-            })
+           loadImage(model)
 
         } else {
 //            requestPermission
@@ -46,7 +46,13 @@ class MainActivity : AppCompatActivity(),ItemClickListener {
         }
 
     }
-
+   fun loadImage(model: ViewModel){
+       model.getImage()
+       model.images.observe(this, Observer {
+           rev.adapter = MyAdapter(it, this)
+           rev.layoutManager = GridLayoutManager(this, 5)
+       })
+   }
     override fun onRequestPermissionsResult(
         requestCode: Int,
         permissions: Array<out String>,
@@ -62,11 +68,12 @@ class MainActivity : AppCompatActivity(),ItemClickListener {
     }
 
 
-
     private fun permissionGranted() =
-        checkSelfPermission(android.Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED
+        checkSelfPermission(android.Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED && checkSelfPermission(
+            android.Manifest.permission.WRITE_EXTERNAL_STORAGE
+        ) == PackageManager.PERMISSION_GRANTED
 
     override fun onclick(uri: Uri, position: Int) {
-        Dialog(uri).show(supportFragmentManager,"fragment")
+        Dialog(uri).show(supportFragmentManager, "fragment")
     }
 }

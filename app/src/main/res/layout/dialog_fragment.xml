@@ -20,21 +20,21 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <Button
-                android:id="@+id/buttonFull"
+                android:id="@+id/buttonShare"
                 android:layout_margin="10px"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/button_drawable"
-                android:text="Full View"
+                android:text="Share"
                 android:textColor="@color/colorPrimary" />
             <Button
-                android:id="@+id/buttonEdit"
+                android:id="@+id/buttonDelete"
                 android:layout_width="wrap_content"
                 android:layout_marginLeft="60px"
                 android:layout_marginTop="10px"
                 android:layout_height="wrap_content"
                 android:background="@drawable/button_drawable"
-                android:text="Edit"
+                android:text="Delete"
                 android:textColor="@color/colorPrimary" />
         </LinearLayout>
 
